@@ -9,7 +9,7 @@ public interface Service {
 
     boolean addUser(User user);
 
-    void updateClient(Long id, String email, String password, Long age);
+    void updateClient(User user);
 
     List<User> getUserByName(String email);
 

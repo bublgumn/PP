@@ -3,6 +3,7 @@ package org.exampleProjectOne.dao;
 import org.exampleProjectOne.model.User;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import java.sql.SQLException;
@@ -18,6 +19,11 @@ public class UserHibernateDAO implements UserDao {
 
     private boolean validateClient(String name, String password) {
         return !name.isEmpty() && !password.isEmpty() && !(name == null) && !(password == null);
+    }
+
+    @Override
+    public void close() throws Exception {
+        session.close();
     }
 
     @Override
@@ -42,20 +48,16 @@ public class UserHibernateDAO implements UserDao {
 
     @Override
     public void deleteUser(User user) throws SQLException {
-        session.delete(user);
         Transaction transaction = session.beginTransaction();
+        session.delete(user);
         session.flush();
         transaction.commit();
     }
 
     @Override
-    public void updateClient(Long id, String email, String password, Long age) throws SQLException {
-        User user =  session.get(User.class, id);
-        user.setEmail(email);
-        user.setPassword(password);
-        user.setAge(age);
-        session.update(user);
+    public void updateClient(User user) throws SQLException {
         Transaction transaction = session.beginTransaction();
+        session.update(user);
         session.flush();
         transaction.commit();
     }
@@ -72,8 +74,8 @@ public class UserHibernateDAO implements UserDao {
     @Override
     public void addUser(User user) throws SQLException {
         if (validateClient(user.getEmail(), user.getPassword()) && !searchClientDao(user)) {
-            session.save(user);
             Transaction transaction = session.beginTransaction();
+            session.save(user);
             session.flush();
             transaction.commit();
         }

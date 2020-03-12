@@ -2,14 +2,6 @@ package org.exampleProjectOne.servlets;
 
 import org.exampleProjectOne.factory.UserDaoFactory;
 import org.exampleProjectOne.model.User;
-import org.exampleProjectOne.service.UserJdbcService;
-import org.exampleProjectOne.util.DBHelper;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.service.ServiceRegistry;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,8 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.InputStream;
-import java.sql.SQLException;
 import java.util.List;
 
 
@@ -30,7 +20,27 @@ public class ListUsersServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse resp) throws ServletException, IOException {
+
+        /*UserDaoFactory userDaoFactory = new UserDaoFactory();
+        System.out.println(userDaoFactory.getDb());*/
         List<User> userList = null;
+        /*SessionFactory sessionFactory = createSessionFactory();
+        User userOne = new User("Admin", "admin", 1L);
+        User userTwo = new User("AdminTwo", "adminTwo", 2L);
+        try {
+            Session sessionOne = sessionFactory.openSession();
+            addUser(userOne, sessionOne);
+            sessionOne.close();
+            Session sessionTwo = sessionFactory.openSession();
+            addUser(userTwo, sessionTwo);
+            sessionTwo.close();
+            Session sessionThree = sessionFactory.openSession();
+            userList = getAllUser(sessionThree);
+            sessionThree.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }*/
+
         try {
             userList = new UserDaoFactory().instanceDao().getAllUser();
         } catch (Exception e) {

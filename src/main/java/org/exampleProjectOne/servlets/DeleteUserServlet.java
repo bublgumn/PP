@@ -3,7 +3,6 @@ package org.exampleProjectOne.servlets;
 import org.exampleProjectOne.factory.UserDaoFactory;
 import org.exampleProjectOne.model.User;
 import org.exampleProjectOne.service.Service;
-import org.exampleProjectOne.service.UserJdbcService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

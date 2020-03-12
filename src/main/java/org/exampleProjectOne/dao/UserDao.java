@@ -9,7 +9,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public interface UserDao {
+public interface UserDao extends AutoCloseable {
 
     List<User> getAllUser() throws SQLException;
 
@@ -17,7 +17,7 @@ public interface UserDao {
 
     void deleteUser(User user) throws SQLException;
 
-    void updateClient(Long id, String email, String password, Long age) throws SQLException;
+    void updateClient(User user) throws SQLException;
 
     boolean searchClientDao(User user) throws SQLException;
 

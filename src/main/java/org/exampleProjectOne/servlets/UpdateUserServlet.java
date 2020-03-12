@@ -3,7 +3,6 @@ package org.exampleProjectOne.servlets;
 import org.exampleProjectOne.factory.UserDaoFactory;
 import org.exampleProjectOne.model.User;
 import org.exampleProjectOne.service.Service;
-import org.exampleProjectOne.service.UserJdbcService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -56,9 +55,10 @@ public class UpdateUserServlet extends HttpServlet {
         String name = req.getParameter("name");
         String password = req.getParameter("password");
         Long age = Long.parseLong(req.getParameter("age"));
+        User updateUser = new User(id, name, password, age);
         if (id != null && name != null && password != null && age != null) {
             try {
-                service.updateClient(id, name, password, age);
+                service.updateClient(updateUser);
                 return true;
             } catch (Exception e) {
                 return false;

@@ -1,8 +1,13 @@
 package org.exampleProjectOne.util;
 
+import org.exampleProjectOne.dao.UserHibernateDAO;
 import org.exampleProjectOne.dao.UserJdbcDAO;
 import org.exampleProjectOne.model.User;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
 
 import java.sql.*;
 
@@ -52,7 +57,19 @@ public class DBHelper {
         configuration.setProperty("hibernate.connection.password", "admin65");
         configuration.setProperty("hibernate.show_sql", "true");
         configuration.setProperty("hibernate.hbm2ddl.auto", "create");
-        return configuration;    }
+        return configuration;
+    }
+
+    public static void initHibernate(SessionFactory sessionFactory) {
+        User userOne = new User("Admin", "admin", 1L);
+        User userTwo = new User("AdminTwo", "adminTwo", 2L);
+        try (UserHibernateDAO userHibernateDAO = new UserHibernateDAO(sessionFactory.openSession());) {
+            userHibernateDAO.addUser(userOne);
+            userHibernateDAO.addUser(userTwo);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public static void initializeMysql() throws Exception {
         DriverManager.registerDriver((Driver) Class.forName("com.mysql.cj.jdbc.Driver").newInstance());

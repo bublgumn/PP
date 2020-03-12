@@ -14,6 +14,11 @@ public class UserJdbcDAO implements UserDao {
         this.connection = connection;
     }
 
+    @Override
+    public void close() throws Exception {
+        connection.close();
+    }
+
     public List<User> getAllUser() throws SQLException {
         List<User> result = new ArrayList<>();
         try (Statement statement = connection.createStatement()) {
@@ -62,14 +67,14 @@ public class UserJdbcDAO implements UserDao {
         }
     }
 
-    public void updateClient(Long id, String email, String password, Long age) throws SQLException {
-        if (validateClient(email, password) && id != null && age != null) {
+    public void updateClient(User user) throws SQLException {
+        if (validateClient(user.getEmail(), user.getPassword()) && user.getId() != null && user.getAge() != null) {
             String update = "update users set name = ?, password = ?, age = ? where id = ?";
             try (PreparedStatement result = connection.prepareStatement(update)) {
-                result.setString(1, email);
-                result.setString(2, password);
-                result.setLong(3, age);
-                result.setLong(4, id);
+                result.setString(1, user.getEmail());
+                result.setString(2, user.getPassword());
+                result.setLong(3, user.getAge());
+                result.setLong(4, user.getId());
                 result.executeUpdate();
             }
         }
