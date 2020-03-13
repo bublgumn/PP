@@ -3,6 +3,7 @@ package org.exampleProjectOne.servlets;
 import org.exampleProjectOne.factory.UserDaoFactory;
 import org.exampleProjectOne.model.User;
 import org.exampleProjectOne.service.Service;
+import org.exampleProjectOne.service.UserService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,7 +24,7 @@ public class CreateUserServlet extends HttpServlet {
         if (email != null && password != null && age != null) {
             addUser = new User(email, password, age);
         }
-        Service service = new UserDaoFactory().instanceDao();
+        Service service = UserService.getInstance();
         try {
             if (service.addUser(addUser)) {
                 List<User> userList = service.getUserByName(addUser.getEmail());

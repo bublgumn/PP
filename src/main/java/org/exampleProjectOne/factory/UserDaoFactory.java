@@ -38,10 +38,6 @@ public class UserDaoFactory implements Factory{
         }
     }
 
-    private String getDb() {
-        return db;
-    }
-
     private static SessionFactory getSessionFactory () {
         Configuration configuration = DBHelper.getInstance().getConfiguration();
         StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder();
@@ -50,7 +46,7 @@ public class UserDaoFactory implements Factory{
         return configuration.buildSessionFactory(serviceRegistry);
     }
 
-    public static UserDao getDao() {
+    public UserDao getDao() {
         if (db.equals("jdbc")){
             try {
                 if (!initializationDAO){
@@ -68,19 +64,6 @@ public class UserDaoFactory implements Factory{
                 initializationDAO = true;
             }
             return new UserHibernateDAO(sessionFactory.openSession());
-        }
-        return null;
-    }
-
-    public Service instanceDao() {
-        if (db.equals("jdbc")){
-            try {
-                return UserService.getInstance();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else if (db.equals("hibernate")) {
-            return UserService.getInstance();
         }
         return null;
     }

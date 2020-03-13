@@ -2,6 +2,7 @@ package org.exampleProjectOne.servlets;
 
 import org.exampleProjectOne.factory.UserDaoFactory;
 import org.exampleProjectOne.model.User;
+import org.exampleProjectOne.service.UserService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,28 +22,9 @@ public class ListUsersServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse resp) throws ServletException, IOException {
 
-        /*UserDaoFactory userDaoFactory = new UserDaoFactory();
-        System.out.println(userDaoFactory.getDb());*/
         List<User> userList = null;
-        /*SessionFactory sessionFactory = createSessionFactory();
-        User userOne = new User("Admin", "admin", 1L);
-        User userTwo = new User("AdminTwo", "adminTwo", 2L);
         try {
-            Session sessionOne = sessionFactory.openSession();
-            addUser(userOne, sessionOne);
-            sessionOne.close();
-            Session sessionTwo = sessionFactory.openSession();
-            addUser(userTwo, sessionTwo);
-            sessionTwo.close();
-            Session sessionThree = sessionFactory.openSession();
-            userList = getAllUser(sessionThree);
-            sessionThree.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }*/
-
-        try {
-            userList = new UserDaoFactory().instanceDao().getAllUser();
+            userList = UserService.getInstance().getAllUser();
         } catch (Exception e) {
             resp.setContentType("text/html;charset=utf-8");
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);

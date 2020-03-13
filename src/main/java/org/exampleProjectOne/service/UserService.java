@@ -23,7 +23,7 @@ public class UserService implements Service {
 
     @Override
     public List<User> getAllUser() {
-        try (UserDao userDao = UserDaoFactory.getDao()) {
+        try (UserDao userDao = new  UserDaoFactory().getDao()) {
             return userDao.getAllUser();
         } catch (Exception e) {
             e.printStackTrace();
@@ -33,7 +33,7 @@ public class UserService implements Service {
 
     @Override
     public boolean addUser(User user) {
-        try (UserDao userDao = UserDaoFactory.getDao()) {
+        try (UserDao userDao = new  UserDaoFactory().getDao()) {
             userDao.addUser(user);
             return true;
         } catch (Exception e) {
@@ -44,7 +44,7 @@ public class UserService implements Service {
 
     @Override
     public void updateClient(User user) {
-        try (UserDao userDao = UserDaoFactory.getDao()) {
+        try (UserDao userDao = new  UserDaoFactory().getDao()) {
             userDao.updateClient(user);
         } catch (Exception e) {
             e.printStackTrace();
@@ -53,7 +53,7 @@ public class UserService implements Service {
 
     @Override
     public List<User> getUserByName(String email) {
-        try (UserDao userDao = UserDaoFactory.getDao()) {
+        try (UserDao userDao = new  UserDaoFactory().getDao()) {
             return userDao.getUserByName(email);
         } catch (Exception e) {
             e.printStackTrace();
@@ -63,7 +63,7 @@ public class UserService implements Service {
 
     @Override
     public void deleteUser(User user) {
-        try (UserDao userDao = UserDaoFactory.getDao()) {
+        try (UserDao userDao = new  UserDaoFactory().getDao()) {
             userDao.deleteUser(user);
         } catch (Exception e) {
             e.printStackTrace();

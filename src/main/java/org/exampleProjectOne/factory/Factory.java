@@ -4,5 +4,5 @@ import org.exampleProjectOne.dao.UserDao;
 import org.exampleProjectOne.service.Service;
 
 public interface Factory {
-    Service instanceDao();
+    UserDao getDao();
 }

@@ -3,6 +3,7 @@ package org.exampleProjectOne.servlets;
 import org.exampleProjectOne.factory.UserDaoFactory;
 import org.exampleProjectOne.model.User;
 import org.exampleProjectOne.service.Service;
+import org.exampleProjectOne.service.UserService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,7 +22,7 @@ public class DeleteUserServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String email = req.getParameter("name");
         if (email != null) {
-            Service service = new UserDaoFactory().instanceDao();
+            Service service = UserService.getInstance();;
             try {
                 List<User> userList = service.getUserByName(email);
                 if (userList.size() > 0) {

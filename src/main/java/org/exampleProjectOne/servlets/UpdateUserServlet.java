@@ -3,6 +3,7 @@ package org.exampleProjectOne.servlets;
 import org.exampleProjectOne.factory.UserDaoFactory;
 import org.exampleProjectOne.model.User;
 import org.exampleProjectOne.service.Service;
+import org.exampleProjectOne.service.UserService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,7 +17,7 @@ import java.util.List;
 @WebServlet("/UpdateUserServlet")
 public class UpdateUserServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Service service = new UserDaoFactory().instanceDao();
+        Service service = UserService.getInstance();
         if(updateUser(req, service)){
             List<User> userList = null;
             try {
