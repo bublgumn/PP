@@ -42,18 +42,14 @@ this.id = id;
             <td>${user.password}</td>
             <td>${user.age}</td>
             <td>
-                <!--post-->
                 <form name="delete" action="/PP1_war_exploded/DeleteUserServlet" method="post">
-                    <input title="Name"  type="hidden" name="name" value="${user.email}">
+                    <input title="Id"  type="hidden" name="id" value="${user.id}">
                     <input type="submit" title="Submit" value="Delete">
                 </form>
             </td>
             <td>
                 <form name="update" action="/PP1_war_exploded/UpdateUserServlet" method="get">
                     <input title="Id"  type="hidden" name="id" value="${user.id}">
-                    <%--<input title="Name"  type="hidden" name="name" value="${user.email}">
-                    <input title="Password"  type="hidden" name="password" value="${user.password}">
-                    <input title="Age"  type="hidden" name="age" value="${user.age}">--%>
                     <input type="submit" title="Submit" value="Update">
                 </form>
             </td>

@@ -23,14 +23,13 @@ public class ListUsersServlet extends HttpServlet {
 
     }
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<User> userList = null;
         try {
-            userList = service.getAllUser();
+            List<User>userList = service.getAllUser();
+            req.setAttribute("users", userList);
+            req.getRequestDispatcher("usersList.jsp").forward(req, resp);
         } catch (Exception e) {
             resp.setContentType("text/html;charset=utf-8");
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
-        req.setAttribute("users", userList);
-        req.getRequestDispatcher("usersList.jsp").forward(req, resp);
     }
 }

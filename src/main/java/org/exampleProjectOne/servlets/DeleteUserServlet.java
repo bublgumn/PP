@@ -19,17 +19,12 @@ public class DeleteUserServlet extends HttpServlet {
     private static final Service service = UserService.getInstance();
 
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String email = req.getParameter("name");
-        if (email != null) {
-            try {
-                User userList = service.getUserByName(email);
-                service.deleteUser(userList);
-                resp.sendRedirect(req.getContextPath() + "/ListUsersServlet");
-            } catch (Exception e) {
-                resp.setContentType("text/html;charset=utf-8");
-                resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            }
-        } else {
+        Long id = Long.parseLong(req.getParameter("id"));
+        try {
+            User userList = service.getUserById(id);
+            service.deleteUser(userList);
+            resp.sendRedirect(req.getContextPath() + "/ListUsersServlet");
+        } catch (Exception e) {
             resp.setContentType("text/html;charset=utf-8");
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
