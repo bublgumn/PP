@@ -1,17 +1,27 @@
 package org.exampleProjectOne.dao;
 
 import org.exampleProjectOne.model.User;
-import org.hibernate.Query;
+import org.hibernate.query.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.NativeQuery;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserHibernateDAO implements UserDao {
+    private static SessionFactory sessionFactory;
     private Session session;
+
+    public static void setSessionFactory (SessionFactory sessionFactoryNew){
+        sessionFactory = sessionFactoryNew;
+    }
+
+    public static SessionFactory getSessionFactory() {
+        return sessionFactory;
+    }
 
     public UserHibernateDAO(Session session) {
         this.session = session;
@@ -28,22 +38,21 @@ public class UserHibernateDAO implements UserDao {
 
     @Override
     public List<User> getAllUser() throws SQLException {
-        String sql = "From " + User.class.getSimpleName();
-        List<User> result = session.createQuery(sql).list();
-        return result;
+        return session.createQuery("From User u", User.class).list();
     }
 
     @Override
-    public List<User> getUserByName(String email) throws SQLException {
-        String sql = "From " + User.class.getSimpleName() + " where email = :nowEmail ";
-        Query query = session.createQuery(sql);
+    public User getUserByName(String email) throws SQLException {
+        Query query = session.createQuery("From User u where u.email = :nowEmail ");
         query.setParameter("nowEmail", email);
-        User result = (User) query.uniqueResult();
-        List<User> resultList = new ArrayList<>();
-        if (result != null) {
-            resultList.add(result);
-        }
-        return resultList;
+        return (User) query.uniqueResult();
+    }
+
+    @Override
+    public User getUserById(Long id) throws SQLException {
+        Query query = session.createQuery("From User u where u.id = :nowId ");
+        query.setParameter("nowId", id);
+        return (User) query.uniqueResult();
     }
 
     @Override
@@ -62,14 +71,14 @@ public class UserHibernateDAO implements UserDao {
         transaction.commit();
     }
 
+    //переписать скл, query
     @Override
     public boolean searchClientDao(User user) throws SQLException {
-        String sql = "From " + User.class.getSimpleName() + " where email = :nameOne ";
-        Query query = session.createQuery(sql);
+        Query query = session.createQuery("From User u where u.email = :nameOne ");
         query.setParameter("nameOne", user.getEmail());
-        User result = (User) query.uniqueResult();
-        return result != null;
+        return query.uniqueResult() != null;
     }
+
 
     @Override
     public void addUser(User user) throws SQLException {

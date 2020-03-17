@@ -16,27 +16,15 @@ import java.util.List;
 @WebServlet("/DeleteUserServlet")
 public class DeleteUserServlet extends HttpServlet {
 
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    }
+    private static final Service service = UserService.getInstance();
 
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String email = req.getParameter("name");
         if (email != null) {
-            Service service = UserService.getInstance();;
             try {
-                List<User> userList = service.getUserByName(email);
-                if (userList.size() > 0) {
-                    service.deleteUser(userList.get(0));
-                }
-                List<User> userLists = null;
-                try {
-                    userLists = service.getAllUser();
-                } catch (Exception e) {
-                    resp.setContentType("text/html;charset=utf-8");
-                    resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                }
-                req.setAttribute("users", userLists);
-                req.getRequestDispatcher("usersList.jsp").forward(req, resp);
+                User userList = service.getUserByName(email);
+                service.deleteUser(userList);
+                resp.sendRedirect(req.getContextPath() + "/ListUsersServlet");
             } catch (Exception e) {
                 resp.setContentType("text/html;charset=utf-8");
                 resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -45,6 +33,8 @@ public class DeleteUserServlet extends HttpServlet {
             resp.setContentType("text/html;charset=utf-8");
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
+    }
 
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     }
 }

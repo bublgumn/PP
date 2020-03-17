@@ -16,28 +16,31 @@ import java.util.List;
 
 @WebServlet("/CreateUserServlet")
 public class CreateUserServlet extends HttpServlet {
+
+    private static final Service service = UserService.getInstance();
+
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String email = req.getParameter("name");
         String password = req.getParameter("password");
         Long age = Long.parseLong(req.getParameter("age"));
-        User addUser = null;
         if (email != null && password != null && age != null) {
-            addUser = new User(email, password, age);
-        }
-        Service service = UserService.getInstance();
-        try {
-            if (service.addUser(addUser)) {
-                List<User> userList = service.getUserByName(addUser.getEmail());
-                req.setAttribute("users", userList);
-                req.getRequestDispatcher("showUser.jsp").forward(req, resp);
-            } else {
+            User addUser = new User(email, password, age);
+            try {
+                if (service.addUser(addUser)) {
+                    User user = service.getUserByName(email);
+                    req.setAttribute("user", user);
+                    req.getRequestDispatcher("showUser.jsp").forward(req, resp);
+                } else {
+                    resp.setContentType("text/html;charset=utf-8");
+                    resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                }
+            } catch (Exception e) {
                 resp.setContentType("text/html;charset=utf-8");
                 resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
-        } catch (Exception e) {
-            resp.setContentType("text/html;charset=utf-8");
-            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
+        resp.setContentType("text/html;charset=utf-8");
+        resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

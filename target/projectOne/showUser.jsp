@@ -12,9 +12,7 @@
     <title>Title</title>
 </head>
 <body>
-
 <h1>Show User</h1>
-
 <table>
     <thead>
     <tr>
@@ -25,23 +23,15 @@
     </tr>
     </thead>
     <tbody>
-
-    <c:forEach var="user" items="${users}">
         <tr>
             <td>${user.id}</td>
             <td>${user.email}</td>
             <td>${user.password}</td>
             <td>${user.age}</td>
-            <form></form>
         </tr>
-    </c:forEach>
-
     </tbody>
 </table>
-
 <br>
-
 <a href="/PP1_war_exploded/ListUsersServlet"><h3>User List</h3></a>
-
 </body>
 </html>

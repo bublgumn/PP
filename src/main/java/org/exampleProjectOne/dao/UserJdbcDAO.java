@@ -35,11 +35,9 @@ public class UserJdbcDAO implements UserDao {
         return result;
     }
 
-    public List<User> getUserByName(String email) throws SQLException {
-        String search = "select * from users where name = ?;";
-        List<User> userList = new ArrayList<>();
+    public User getUserByName(String email) throws SQLException {
         User result = null;
-        try (PreparedStatement stmt = connection.prepareStatement(search)
+        try (PreparedStatement stmt = connection.prepareStatement("select * from users where name = ?;")
         ) {
             stmt.setString(1, email);
             ResultSet resultSet = stmt.executeQuery();
@@ -51,10 +49,25 @@ public class UserJdbcDAO implements UserDao {
                 result.setId(resultSet.getLong(1));
             }
         }
-        if (result != null) {
-            userList.add(result);
+        return result;
+    }
+
+    @Override
+    public User getUserById(Long id) throws SQLException {
+        User result = null;
+        try (PreparedStatement stmt = connection.prepareStatement("select * from users where id = ?;")
+        ) {
+            stmt.setLong(1, id);
+            ResultSet resultSet = stmt.executeQuery();
+            if (resultSet.next()) {
+                result = new User();
+                result.setEmail(resultSet.getString(2));
+                result.setPassword(resultSet.getString(3));
+                result.setAge(resultSet.getLong(4));
+                result.setId(resultSet.getLong(1));
+            }
         }
-        return userList;
+        return result;
     }
 
     public void deleteUser(User user) throws SQLException {

@@ -2,6 +2,7 @@ package org.exampleProjectOne.servlets;
 
 import org.exampleProjectOne.factory.UserDaoFactory;
 import org.exampleProjectOne.model.User;
+import org.exampleProjectOne.service.Service;
 import org.exampleProjectOne.service.UserService;
 
 import javax.servlet.ServletException;
@@ -16,22 +17,20 @@ import java.util.List;
 @WebServlet("/ListUsersServlet")
 public class ListUsersServlet extends HttpServlet {
 
+    private static final Service service = UserService.getInstance();
+
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
     }
-
-    protected void doGet(HttpServletRequest request, HttpServletResponse resp) throws ServletException, IOException {
-
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<User> userList = null;
         try {
-            userList = UserService.getInstance().getAllUser();
+            userList = service.getAllUser();
         } catch (Exception e) {
             resp.setContentType("text/html;charset=utf-8");
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
-
-        request.setAttribute("users", userList);
-        request.getRequestDispatcher("usersList.jsp").forward(request, resp);
-
+        req.setAttribute("users", userList);
+        req.getRequestDispatcher("usersList.jsp").forward(req, resp);
     }
 }

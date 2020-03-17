@@ -24,8 +24,6 @@
     </tr>
     </thead>
     <tbody>
-
-    <c:forEach var="user" items="${users}">
         <tr>
             <td>${user.id}</td>
             <td>${user.email}</td>
@@ -51,8 +49,6 @@
                 </td>
             </form>
         </tr>
-    </c:forEach>
-
     </tbody>
 </table>
 

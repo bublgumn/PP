@@ -2,6 +2,7 @@ package org.exampleProjectOne.service;
 
 import org.exampleProjectOne.model.User;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public interface Service {
@@ -11,7 +12,9 @@ public interface Service {
 
     void updateClient(User user);
 
-    List<User> getUserByName(String email);
+    User getUserByName(String email);
+
+    User getUserById(Long id) throws SQLException;
 
     void deleteUser(User user);
 }
