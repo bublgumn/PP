@@ -31,7 +31,7 @@
             <td>${user.age}</td>
         </tr>
         <tr>
-            <form name="update" action="/PP1_war_exploded/UpdateUserServlet" method="post">
+            <form name="update" action="/PP_war_exploded/admin/UpdateUserServlet" method="post">
                 <td>
                     <input title="Id"  type="hidden" name="id" value="${user.id}">
                 </td>

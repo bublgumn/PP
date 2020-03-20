@@ -12,7 +12,7 @@
 </head>
 <body>
 
-<form name="user" action="/PP1_war_exploded/CreateUserServlet" method="post">
+<form name="user" action="/PP_war_exploded/CreateUserServlet" method="post">
     <p>Name</p>
     <input title="Name" type="text" name="name">
     <p>Password</p>

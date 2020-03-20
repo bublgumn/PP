@@ -24,12 +24,10 @@ public class CreateUserServlet extends HttpServlet {
         String password = req.getParameter("password");
         Long age = Long.parseLong(req.getParameter("age"));
         if (email != null && password != null && age != null) {
-            User addUser = new User(email, password, age);
+            User addUser = new User(email, password, age, "user");
             try {
                 if (service.addUser(addUser)) {
-                    User user = service.getUserByName(email);
-                    req.setAttribute("user", user);
-                    req.getRequestDispatcher("showUser.jsp").forward(req, resp);
+                    req.getRequestDispatcher("user.jsp").forward(req, resp);
                 } else {
                     resp.setContentType("text/html;charset=utf-8");
                     resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -47,5 +45,4 @@ public class CreateUserServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getRequestDispatcher("createUser.jsp").forward(request, response);
     }
-
 }

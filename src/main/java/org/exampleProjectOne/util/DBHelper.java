@@ -62,8 +62,13 @@ public class DBHelper {
     }
 
     public static void initDataResources(){
-        User userOne = new User("Admin", "admin", 1L);
-        User userTwo = new User("AdminTwo", "adminTwo", 2L);
+        User userOne = new User("admin", "admin", 1L);
+        userOne.setRole("admin");
+        User userTwo = new User("adminTwo", "adminTwo", 2L);
+        userTwo.setRole("admin");
+
+        User user1 = new User("user1", "user1", 1L, "user");
+        User user2 = new User("user2", "user2", 2L, "user");
 
         if (PropertyRead.readProperty("db.host").equals("hibernate")) {
             UserHibernateDAO.setSessionFactory(getSessionFactory());
@@ -85,7 +90,7 @@ public class DBHelper {
                         PropertyRead.readProperty("db.passwordDB"))) {
                     Statement stmt = connectionTry.createStatement();
                     stmt.executeUpdate("DROP TABLE IF EXISTS users");
-                    stmt.execute("create table if not exists users (id bigint auto_increment, name varchar(256), password varchar(256), age bigint, primary key (id))");
+                    stmt.execute("create table if not exists users (id bigint auto_increment, email varchar(256), password varchar(256), age bigint, role varchar(256), primary key (id))");
                     stmt.close();
                 }
 
@@ -96,6 +101,8 @@ public class DBHelper {
                     UserJdbcDAO userJdbcDAO = new UserJdbcDAO(connectionTry);
                     userJdbcDAO.addUser(userOne);
                     userJdbcDAO.addUser(userTwo);
+                    userJdbcDAO.addUser(user1);
+                    userJdbcDAO.addUser(user2);
                 }
             } catch (SQLException | InstantiationException | IllegalAccessException | ClassNotFoundException e) {
                 e.printStackTrace();

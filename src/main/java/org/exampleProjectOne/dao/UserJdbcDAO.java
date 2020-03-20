@@ -29,6 +29,7 @@ public class UserJdbcDAO implements UserDao {
                 bankClient.setPassword(resultSet.getString(3));
                 bankClient.setAge(resultSet.getLong(4));
                 bankClient.setId(resultSet.getLong(1));
+                bankClient.setRole(resultSet.getString(5));
                 result.add(bankClient);
             }
         }
@@ -37,7 +38,7 @@ public class UserJdbcDAO implements UserDao {
 
     public User getUserByName(String email) throws SQLException {
         User result = null;
-        try (PreparedStatement stmt = connection.prepareStatement("select * from users where name = ?;")
+        try (PreparedStatement stmt = connection.prepareStatement("select * from users where email = ?;")
         ) {
             stmt.setString(1, email);
             ResultSet resultSet = stmt.executeQuery();
@@ -47,6 +48,7 @@ public class UserJdbcDAO implements UserDao {
                 result.setPassword(resultSet.getString(3));
                 result.setAge(resultSet.getLong(4));
                 result.setId(resultSet.getLong(1));
+                result.setRole(resultSet.getString(5));
             }
         }
         return result;
@@ -65,13 +67,14 @@ public class UserJdbcDAO implements UserDao {
                 result.setPassword(resultSet.getString(3));
                 result.setAge(resultSet.getLong(4));
                 result.setId(resultSet.getLong(1));
+                result.setRole(resultSet.getString(5));
             }
         }
         return result;
     }
 
     public void deleteUser(User user) throws SQLException {
-        String sql = "DELETE FROM users WHERE name = ? and password = ? and age = ?";
+        String sql = "DELETE FROM users WHERE email = ? and password = ? and age = ?";
         try (PreparedStatement result = connection.prepareStatement(sql)) {
             result.setString(1, user.getEmail());
             result.setString(2, user.getPassword());
@@ -82,7 +85,7 @@ public class UserJdbcDAO implements UserDao {
 
     public void updateClient(User user) throws SQLException {
         if (validateClient(user.getEmail(), user.getPassword()) && user.getId() != null && user.getAge() != null) {
-            String update = "update users set name = ?, password = ?, age = ? where id = ?";
+            String update = "update users set email = ?, password = ?, age = ? where id = ?";
             try (PreparedStatement result = connection.prepareStatement(update)) {
                 result.setString(1, user.getEmail());
                 result.setString(2, user.getPassword());
@@ -98,7 +101,7 @@ public class UserJdbcDAO implements UserDao {
     }
 
     public boolean searchClientDao(User user) throws SQLException {
-        try (PreparedStatement stmt = connection.prepareStatement("select * from users where name = ?")) {
+        try (PreparedStatement stmt = connection.prepareStatement("select * from users where email = ?")) {
             stmt.setString(1, user.getEmail());
             ResultSet resultSet = stmt.executeQuery();
             if (!resultSet.next()) {
@@ -110,11 +113,12 @@ public class UserJdbcDAO implements UserDao {
 
     public void addUser(User user) throws SQLException {
         if (validateClient(user.getEmail(), user.getPassword()) && !searchClientDao(user)) {
-            String update = "insert into users (name, password, age) values (?, ?, ?)";
+            String update = "insert into users (email, password, age, role) values (?, ?, ?, ?)";
             try (PreparedStatement result = connection.prepareStatement(update);) {
                 result.setString(1, user.getEmail());
                 result.setString(2, user.getPassword());
                 result.setLong(3, user.getAge());
+                result.setString(4, user.getRole());
                 result.executeUpdate();
             }
         }

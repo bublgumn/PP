@@ -15,7 +15,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet("/UpdateUserServlet")
+@WebServlet(urlPatterns = {"/UpdateUserServlet", "/admin/UpdateUserServlet"})
 public class UpdateUserServlet extends HttpServlet {
 
     private static final Service service = UserService.getInstance();
@@ -27,7 +27,7 @@ public class UpdateUserServlet extends HttpServlet {
         Long age = Long.parseLong(req.getParameter("age"));
         User updateUser = new User(id, name, password, age);
         service.updateClient(updateUser);
-        resp.sendRedirect(req.getContextPath() + "/ListUsersServlet");
+        resp.sendRedirect(req.getContextPath() + "/admin");
     }
 
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

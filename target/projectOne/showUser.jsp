@@ -32,6 +32,6 @@
     </tbody>
 </table>
 <br>
-<a href="/PP1_war_exploded/ListUsersServlet"><h3>User List</h3></a>
+<a href="/PP_war_exploded/ListUsersServlet"><h3>User List</h3></a>
 </body>
 </html>
