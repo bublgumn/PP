@@ -1,5 +1,6 @@
 package org.exampleProjectOne.servlets;
 
+import org.exampleProjectOne.factory.UserDaoFactory;
 import org.exampleProjectOne.model.User;
 import org.exampleProjectOne.service.Service;
 import org.exampleProjectOne.service.UserService;
@@ -9,31 +10,29 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.List;
 
-@WebServlet(urlPatterns = "/loginIn")
-public class Login extends HttpServlet {
+
+@WebServlet("/admin")
+public class AdminServlet extends HttpServlet {
 
     private static final Service service = UserService.getInstance();
 
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String name = req.getParameter("name");
-        String password = req.getParameter("password");
-        User user = service.getUserByName(name);
-        if (user != null) {
-            if (user.getPassword().equals(password)) {
-                req.getSession().setAttribute("user", user);
-                req.getSession().setAttribute("userRole", user.getRole());
-                resp.sendRedirect( req.getContextPath() + "/userPage");
-            } else {
-                req.getRequestDispatcher("index.jsp").forward(req, resp);
-            }
-        } else {
-            req.getRequestDispatcher("index.jsp").forward(req, resp);
-        }
+
     }
 
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try {
+            List<User> userList = service.getAllUser();
+            req.setAttribute("users", userList);
+            req.getRequestDispatcher("usersList.jsp").forward(req, resp);
+        } catch (Exception e) {
+            resp.setContentType("text/html;charset=utf-8");
+            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 
+        }
     }
 }

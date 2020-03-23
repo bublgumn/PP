@@ -9,31 +9,25 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.List;
 
-@WebServlet(urlPatterns = "/loginIn")
-public class Login extends HttpServlet {
+@WebServlet("/userPage")
+public class UserPage extends HttpServlet {
 
     private static final Service service = UserService.getInstance();
 
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String name = req.getParameter("name");
-        String password = req.getParameter("password");
-        User user = service.getUserByName(name);
-        if (user != null) {
-            if (user.getPassword().equals(password)) {
-                req.getSession().setAttribute("user", user);
-                req.getSession().setAttribute("userRole", user.getRole());
-                resp.sendRedirect( req.getContextPath() + "/userPage");
-            } else {
-                req.getRequestDispatcher("index.jsp").forward(req, resp);
-            }
-        } else {
-            req.getRequestDispatcher("index.jsp").forward(req, resp);
-        }
+
     }
 
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+        String userRole = req.getSession().getAttribute("userRole").toString();
+        if (userRole.equals("admin")) {
+            resp.sendRedirect(req.getContextPath() + "/admin");
+        } else if (userRole.equals("user")) {
+            resp.sendRedirect(req.getContextPath() + "/user");
+        }
     }
 }

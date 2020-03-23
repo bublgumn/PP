@@ -26,21 +26,14 @@ public class AdminFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
 
-        String name = req.getSession().getAttribute("name").toString();
-        String password = req.getSession().getAttribute("password").toString();
-        System.out.println(name);
-        System.out.println(password);
+        User user = (User) req.getSession().getAttribute("user");
+        String userRole = req.getSession().getAttribute("userRole").toString();
 
-        User user = service.getUserByName(name);
-
-        if (user.getRole().equals("admin")) {
-            List<User> userList = service.getAllUser();
-            req.setAttribute("users", userList);
-            req.getRequestDispatcher("usersList.jsp").forward(req, resp);
+        if (user.getRole().equals(userRole) && user.getRole().equals("admin")) {
+            filter.doFilter(req, resp);
         } else {
             req.getRequestDispatcher("index.jsp").forward(req, resp);
         }
-
     }
 
     @Override

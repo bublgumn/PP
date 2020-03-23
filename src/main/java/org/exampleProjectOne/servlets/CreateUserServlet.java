@@ -27,6 +27,8 @@ public class CreateUserServlet extends HttpServlet {
             User addUser = new User(email, password, age, "user");
             try {
                 if (service.addUser(addUser)) {
+                    req.getSession().setAttribute("user", addUser);
+                    req.getSession().setAttribute("userRole", addUser.getRole());
                     req.getRequestDispatcher("user.jsp").forward(req, resp);
                 } else {
                     resp.setContentType("text/html;charset=utf-8");

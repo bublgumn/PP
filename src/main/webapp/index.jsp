@@ -13,24 +13,24 @@
     </tr>
     </thead>
     <tbody>
-    <form name="LoginIn" action="/PP_war_exploded/newLoginIn" method="post">
+    <form name="LoginIn" action="/PP_war_exploded/loginIn" method="post">
         <tr>
             <td>
                 <input title="Name" type="text" name="name">
             </td>
         </tr>
-        <tr>
-            <td>
-                <input title="Password" type="text" name="password">
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <input type="submit" title="Submit" value="Sign in">
-            </td>
-        </tr>
-    </form>
-    </tbody>
+<tr>
+    <td>
+        <input title="Password" type="text" name="password">
+    </td>
+</tr>
+<tr>
+    <td>
+        <input type="submit" title="Submit" value="Sign in">
+    </td>
+</tr>
+</form>
+</tbody>
 </table>
 
 <a href="/PP_war_exploded/CreateUserServlet"><h3>Create user</h3></a>
