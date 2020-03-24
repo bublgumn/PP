@@ -15,7 +15,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(urlPatterns = {"/UpdateUserServlet", "/admin/UpdateUserServlet"})
+@WebServlet(urlPatterns = {"/admin/UpdateUserServlet"})
 public class UpdateUserServlet extends HttpServlet {
 
     private static final Service service = UserService.getInstance();
@@ -35,7 +35,7 @@ public class UpdateUserServlet extends HttpServlet {
         try {
             User user = service.getUserById(id);
             req.setAttribute("user", user);
-            req.getRequestDispatcher("editUser.jsp").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/pages/" + "editUser.jsp").forward(req, resp);
         } catch (SQLException e) {
             e.printStackTrace();
             resp.setContentType("text/html;charset=utf-8");

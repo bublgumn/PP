@@ -28,7 +28,7 @@ public class AdminServlet extends HttpServlet {
         try {
             List<User> userList = service.getAllUser();
             req.setAttribute("users", userList);
-            req.getRequestDispatcher("usersList.jsp").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/pages/" + "usersList.jsp").forward(req, resp);
         } catch (Exception e) {
             resp.setContentType("text/html;charset=utf-8");
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);

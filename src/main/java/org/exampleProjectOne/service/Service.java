@@ -14,6 +14,8 @@ public interface Service {
 
     User getUserByName(String email);
 
+    User getUserByNameAndPassword(String email, String password);
+
     User getUserById(Long id) throws SQLException;
 
     void deleteUser(User user);

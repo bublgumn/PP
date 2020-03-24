@@ -64,6 +64,16 @@ public class UserService implements Service {
     }
 
     @Override
+    public User getUserByNameAndPassword(String email, String password) {
+        try (UserDao userDao = factory.getDao()) {
+            return userDao.getUserByNameAndPassword(email, password);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
     public User getUserById(Long id) throws SQLException {
         try (UserDao userDao = factory.getDao()) {
             return userDao.getUserById(id);

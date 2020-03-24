@@ -20,7 +20,7 @@ public class UserServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            req.getRequestDispatcher("user.jsp").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/pages/" + "user.jsp").forward(req, resp);
         } catch (Exception e) {
             resp.setContentType("text/html;charset=utf-8");
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);

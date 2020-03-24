@@ -48,7 +48,7 @@ this.id = id;
                 </form>
             </td>
             <td>
-                <form name="update" action="/PP_war_exploded/UpdateUserServlet" method="get">
+                <form name="update" action="/PP_war_exploded/admin/UpdateUserServlet" method="get">
                     <input title="Id"  type="hidden" name="id" value="${user.id}">
                     <input type="submit" title="Submit" value="Update">
                 </form>

@@ -15,6 +15,8 @@ public interface UserDao extends AutoCloseable {
 
     User getUserByName(String email) throws SQLException;
 
+    User getUserByNameAndPassword(String email, String password) throws SQLException;
+
     User getUserById(Long id) throws SQLException;
 
     void deleteUser(User user) throws SQLException;

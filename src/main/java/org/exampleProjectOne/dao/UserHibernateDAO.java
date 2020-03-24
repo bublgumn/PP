@@ -5,10 +5,7 @@ import org.hibernate.query.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.query.NativeQuery;
-
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class UserHibernateDAO implements UserDao {
@@ -49,6 +46,14 @@ public class UserHibernateDAO implements UserDao {
     }
 
     @Override
+    public User getUserByNameAndPassword(String email, String password) throws SQLException{
+        Query query = session.createQuery("From User u where u.email = :nowEmail and u.password = : nowPassword ");
+        query.setParameter("nowEmail", email);
+        query.setParameter("nowPassword", password);
+        return (User) query.uniqueResult();
+    }
+
+    @Override
     public User getUserById(Long id) throws SQLException {
         Query query = session.createQuery("From User u where u.id = :nowId ");
         query.setParameter("nowId", id);
@@ -71,14 +76,12 @@ public class UserHibernateDAO implements UserDao {
         transaction.commit();
     }
 
-    //переписать скл, query
     @Override
     public boolean searchClientDao(User user) throws SQLException {
         Query query = session.createQuery("From User u where u.email = :nameOne ");
         query.setParameter("nameOne", user.getEmail());
         return query.uniqueResult() != null;
     }
-
 
     @Override
     public void addUser(User user) throws SQLException {

@@ -29,7 +29,7 @@ public class CreateUserServlet extends HttpServlet {
                 if (service.addUser(addUser)) {
                     req.getSession().setAttribute("user", addUser);
                     req.getSession().setAttribute("userRole", addUser.getRole());
-                    req.getRequestDispatcher("user.jsp").forward(req, resp);
+                    req.getRequestDispatcher("/WEB-INF/pages/" + "user.jsp").forward(req, resp);
                 } else {
                     resp.setContentType("text/html;charset=utf-8");
                     resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -45,6 +45,6 @@ public class CreateUserServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("createUser.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/pages/" + "createUser.jsp").forward(request, response);
     }
 }

@@ -19,14 +19,14 @@ public class Login extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String name = req.getParameter("name");
         String password = req.getParameter("password");
-        User user = service.getUserByName(name);
+        User user = service.getUserByNameAndPassword(name, password);
         if (user != null) {
-            if (user.getPassword().equals(password)) {
-                req.getSession().setAttribute("user", user);
-                req.getSession().setAttribute("userRole", user.getRole());
-                resp.sendRedirect( req.getContextPath() + "/userPage");
-            } else {
-                req.getRequestDispatcher("index.jsp").forward(req, resp);
+            req.getSession().setAttribute("user", user);
+            req.getSession().setAttribute("userRole", user.getRole());
+            if (user.getRole().equals("admin")) {
+                resp.sendRedirect(req.getContextPath() + "/admin");
+            } else if (user.getRole().equals("user")) {
+                resp.sendRedirect(req.getContextPath() + "/user");
             }
         } else {
             req.getRequestDispatcher("index.jsp").forward(req, resp);
